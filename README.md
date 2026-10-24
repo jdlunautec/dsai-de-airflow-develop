@@ -85,11 +85,29 @@ Get Account Keys: https://learn.microsoft.com/en-us/azure/storage/common/storage
 
 # CASO DE USO PARCIAL CONCRETERA
 
-## Datos del servidor central
+El DAG `g5_consolidar_plantas` necesita estas dos condiciones antes de ejecutarse.
 
-El archivo `servidor_central.zip` trae los CSV de las 12 plantas. Hay que descomprimirlo dentro de la carpeta `data` antes de ejecutar el DAG. El resultado debe quedar en `data/servidor_central/`.
+## Carpeta `data/servidor_central`
+
+Dentro de `data` debe existir la carpeta `servidor_central`, con una subcarpeta por planta y su `ensayos_resistencia.csv`. Sin esa carpeta el DAG falla en `listar_plantas`.
+
+El folder `servidor_central` trae los CSV de las 12 plantas. Hay que copiarlo dentro de `data`. El resultado debe quedar en `data/servidor_central/`.
 
 ```bash
 mkdir -p data
 unzip servidor_central.zip -d data
+```
+
+## Conexión `utec_blob_storage`
+
+En Airflow (http://localhost:8081) hay que definir la conexión `utec_blob_storage`. La tarea `call_upload` la usa para subir el consolidado al contenedor `datalake`. Sin esa conexión la subida a Azure falla.
+
+1. Ir a Admin → Connections
+2. Add connection
+3. Connection Id: `utec_blob_storage`
+4. Connection Type: `wasb`
+5. En Extra, el JSON con el connection string de la cuenta de Blob Storage:
+
+```json
+{"connection_string": "<connection_string>"}
 ```
