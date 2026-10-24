@@ -82,3 +82,14 @@ Get Account Keys: https://learn.microsoft.com/en-us/azure/storage/common/storage
 - docker compose up -d: To turn on airflow and run it in background (Recommended)
 - docker compose down && docker compose up -d: Normal Restart
 - docker compose down && docker compose up --build -d: Restart forcing to build docker file (Only when dockerfile is updated)
+
+# CASO DE USO PARCIAL CONCRETERA
+
+## Datos del servidor central
+
+El archivo `servidor_central.zip` trae los CSV de las 12 plantas. Hay que descomprimirlo dentro de la carpeta `data` antes de ejecutar el DAG. El resultado debe quedar en `data/servidor_central/`.
+
+```bash
+mkdir -p data
+unzip servidor_central.zip -d data
+```
